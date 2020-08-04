@@ -6,7 +6,7 @@ export enum DeviceType {
   Mobile,
   Desktop,
 }
-
+//  接口
 export interface IAppState {
   device: DeviceType
   sidebar: {
@@ -14,7 +14,7 @@ export interface IAppState {
     withoutAnimation: boolean
   }
 }
-
+//  装饰器工厂
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements IAppState {
   public sidebar = {

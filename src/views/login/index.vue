@@ -70,6 +70,11 @@
 </template>
 
 <script lang="ts">
+    //类型断言 手动指定一个值得类型
+    //值 as 类型 或者 <类型>值（react里不用这种写法）
+    // this.$refs.username as Input
+
+
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 import { Dictionary } from 'vue-router/types/router'
@@ -77,6 +82,7 @@ import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
 
+//  装饰器工厂
 @Component({
   name: 'Login'
 })
@@ -107,9 +113,10 @@ export default class extends Vue {
   private loading = false
   private showDialog = false
   private redirect?: string
-  private otherQuery: Dictionary<string> = {}
+  private otherQuery: Dictionary<string> = {}   //泛型
 
-  @Watch('$route', { immediate: true })
+
+  @Watch('$route', { immediate: true }) //监听路由改变
   private onRouteChange(route: Route) {
     // TODO: remove the "as Dictionary<string>" hack after v4 release for vue-router
     // See https://github.com/vuejs/vue-router/pull/2050 for details
@@ -140,8 +147,16 @@ export default class extends Vue {
   }
 
   private handleLogin() {
+    console.log("handleLogin")
+    console.log(this.$refs.loginForm)
+    console.log(this.$refs.loginForm as ElForm)
+    console.log((this.$refs.loginForm as ElForm).validate)
+    console.log(this.$refs.loginForm);
+
     (this.$refs.loginForm as ElForm).validate(async(valid: boolean) => {
       if (valid) {
+        console.log(this)
+        console.log(this.redirect)
         this.loading = true
         await UserModule.Login(this.loginForm)
         this.$router.push({
@@ -159,7 +174,9 @@ export default class extends Vue {
   }
 
   private getOtherQuery(query: Dictionary<string>) {
-    return Object.keys(query).reduce((acc, cur) => {
+      console.log("query")
+      console.log(query)
+      return Object.keys(query).reduce((acc, cur) => {
       if (cur !== 'redirect') {
         acc[cur] = query[cur]
       }

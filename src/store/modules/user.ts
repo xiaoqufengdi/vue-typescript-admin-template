@@ -2,7 +2,7 @@ import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-dec
 import { login, logout, getUserInfo } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
-
+//  接口
 export interface IUserState {
   token: string
   name: string
@@ -10,7 +10,7 @@ export interface IUserState {
   introduction: string
   roles: string[]
 }
-
+//  装饰器工厂
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
   public token = getToken() || ''
